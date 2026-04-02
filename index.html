@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Man in the Middle - Tower Defense</title>
+  <link rel="stylesheet" href="/styles/main.css" />
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+    <div id="hud">
+      <div id="hud-top">
+        <div id="hp-display">
+          <span id="hp-label">HUB</span>
+          <div id="hp-bar-container">
+            <div id="hp-bar"></div>
+          </div>
+          <span id="hp-text">100/100</span>
+        </div>
+        <div id="wave-display">WAVE <span id="wave-number">0</span>/5</div>
+        <div id="credits-display"><span id="credits-amount">200</span> CR</div>
+      </div>
+      <div id="wave-announcer"></div>
+      <div id="tower-panel">
+        <button class="tower-btn" data-tower="firewall" data-cost="50">
+          <div class="tower-icon firewall-icon"></div>
+          <span class="tower-name">Firewall</span>
+          <span class="tower-cost">50</span>
+        </button>
+        <button class="tower-btn" data-tower="ids" data-cost="100">
+          <div class="tower-icon ids-icon"></div>
+          <span class="tower-name">IDS/IPS</span>
+          <span class="tower-cost">100</span>
+        </button>
+        <button class="tower-btn" data-tower="encryption" data-cost="125">
+          <div class="tower-icon encryption-icon"></div>
+          <span class="tower-name">Encrypt</span>
+          <span class="tower-cost">125</span>
+        </button>
+        <button class="tower-btn" data-tower="sniffer" data-cost="75">
+          <div class="tower-icon sniffer-icon"></div>
+          <span class="tower-name">Sniffer</span>
+          <span class="tower-cost">75</span>
+        </button>
+        <button class="tower-btn" data-tower="honeypot" data-cost="80">
+          <div class="tower-icon honeypot-icon"></div>
+          <span class="tower-name">Honeypot</span>
+          <span class="tower-cost">80</span>
+        </button>
+      </div>
+    </div>
+    <div id="tower-info" class="hidden">
+      <div id="tower-info-name"></div>
+      <div id="tower-info-stats"></div>
+      <button id="tower-upgrade-btn">Upgrade</button>
+      <button id="tower-sell-btn">Sell</button>
+    </div>
+    <div id="game-over-screen" class="hidden">
+      <div id="game-over-content">
+        <h1 id="game-over-title">BREACH DETECTED</h1>
+        <p id="game-over-message">Your network has been compromised.</p>
+        <p id="game-over-wave">Survived to Wave <span id="final-wave">0</span></p>
+        <button id="restart-btn">REBOOT SYSTEM</button>
+      </div>
+    </div>
+    <div id="start-screen">
+      <h1>MAN IN THE MIDDLE</h1>
+      <p>360&deg; Cyber Defense</p>
+      <button id="start-btn">INITIALIZE</button>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

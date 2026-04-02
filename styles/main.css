@@ -1,0 +1,341 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #050510;
+  font-family: 'Courier New', monospace;
+  color: #ffaa00;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+#game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-canvas {
+  display: block;
+  background: #0a0a1a;
+}
+
+/* === HUD === */
+#hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+  pointer-events: auto;
+}
+
+#hp-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#hp-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #00ff88;
+  letter-spacing: 2px;
+}
+
+#hp-bar-container {
+  width: 120px;
+  height: 12px;
+  background: rgba(255, 51, 68, 0.3);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#hp-bar {
+  width: 100%;
+  height: 100%;
+  background: #00ff88;
+  transition: width 0.3s ease;
+}
+
+#hp-text {
+  font-size: 12px;
+  color: #00ff88;
+  min-width: 60px;
+}
+
+#wave-display {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #ffaa00;
+}
+
+#credits-display {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffdd44;
+  letter-spacing: 1px;
+}
+
+#credits-amount {
+  font-size: 16px;
+}
+
+/* === Wave Announcer === */
+#wave-announcer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: bold;
+  color: #ff3344;
+  text-shadow: 0 0 20px rgba(255, 51, 68, 0.8);
+  letter-spacing: 4px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+#wave-announcer.visible {
+  opacity: 1;
+}
+
+/* === Tower Panel === */
+#tower-panel {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px 16px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+  pointer-events: auto;
+}
+
+.tower-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  min-width: 60px;
+  transition: all 0.2s ease;
+  color: #00e5ff;
+}
+
+.tower-btn:active,
+.tower-btn.selected {
+  background: rgba(0, 229, 255, 0.25);
+  border-color: #00e5ff;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+}
+
+.tower-btn.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.tower-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+}
+
+.firewall-icon { background: #ff6622; }
+.ids-icon { background: #00e5ff; }
+.encryption-icon { background: #aa44ff; }
+.sniffer-icon { background: #44ff44; }
+.honeypot-icon { background: #ffaa00; }
+
+.tower-name {
+  font-size: 9px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+
+.tower-cost {
+  font-size: 10px;
+  color: #ffdd44;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+/* === Tower Info Tooltip === */
+#tower-info {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(10, 10, 26, 0.95);
+  border: 1px solid rgba(0, 229, 255, 0.5);
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 200px;
+  z-index: 10;
+}
+
+#tower-info.hidden {
+  display: none;
+}
+
+#tower-info-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00e5ff;
+  margin-bottom: 8px;
+}
+
+#tower-info-stats {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+#tower-upgrade-btn, #tower-sell-btn {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+  border: 1px solid;
+}
+
+#tower-upgrade-btn {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: #00ff88;
+  color: #00ff88;
+}
+
+#tower-sell-btn {
+  background: rgba(255, 51, 68, 0.15);
+  border-color: #ff3344;
+  color: #ff3344;
+}
+
+/* === Game Over Screen === */
+#game-over-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+#game-over-screen.hidden {
+  display: none;
+}
+
+#game-over-content {
+  text-align: center;
+}
+
+#game-over-title {
+  font-size: 36px;
+  color: #ff3344;
+  text-shadow: 0 0 30px rgba(255, 51, 68, 0.6);
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+}
+
+#game-over-title.victory {
+  color: #00ff88;
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+}
+
+#game-over-message {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+#game-over-wave {
+  font-size: 16px;
+  color: #ffaa00;
+  margin-bottom: 24px;
+}
+
+#restart-btn, #start-btn {
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  padding: 12px 32px;
+  background: rgba(0, 229, 255, 0.15);
+  border: 2px solid #00e5ff;
+  border-radius: 8px;
+  color: #00e5ff;
+  cursor: pointer;
+  letter-spacing: 3px;
+  transition: all 0.2s ease;
+}
+
+#restart-btn:active, #start-btn:active {
+  background: rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+}
+
+/* === Start Screen === */
+#start-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 5, 16, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 30;
+}
+
+#start-screen.hidden {
+  display: none;
+}
+
+#start-screen h1 {
+  font-size: 32px;
+  color: #00ff88;
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+  letter-spacing: 6px;
+}
+
+#start-screen p {
+  font-size: 14px;
+  color: #00e5ff;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
